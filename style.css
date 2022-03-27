@@ -1,0 +1,97 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Zen Kurenaido', sans-serif;
+}
+
+:root {
+    --heading-color: #1e90ff;
+    --text-color: #ffffff;
+    --backgrnd:#0c1027;
+}
+
+/* -----------------------------------nav bar------------------- */
+
+
+/* ---------------movies list----------------------------- */
+
+#movies{
+    margin: 1rem;
+}
+
+#movies-list{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#movies-list li{
+    list-style: none;
+    padding: 4rem;
+}
+
+#movies-list li .card img{
+    cursor: pointer;
+}
+#movies-list li .card .card-title{
+    cursor: pointer;
+}
+#movies-list li .card .card-title:hover{
+    color: gray;
+}
+
+/* -------------------------movie detail page---------------------- */
+
+
+#moviedetails{
+    display: none;
+    margin: 1rem;
+}
+
+#image img{
+  width: 20rem;
+  height: 25rem;
+}
+
+#text{
+    padding: 0rem 3rem;
+}
+#text h2{
+    color:tomato;
+}
+
+/* ------------------------search result dispaly---------------------------- */
+
+.search-box{
+    display: flex;
+    justify-content: space-around;
+}
+
+.search-box img{
+    width: 10rem;
+    height: 10rem;
+}
+
+#searchresult li{
+    list-style: none;
+    padding: 4rem 2rem;
+}
+
+.card-bodyy{
+    padding:0rem 5rem;
+}
+
+/* -----------------------------fav list--------------------------- */
+
+#favourite-movie-list{
+        display: flex;
+        flex-direction: column;
+}
+
+#favourite-movie-list li{
+    list-style: none;
+    padding: 4rem 2rem;
+}
+
+
+
+
