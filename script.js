@@ -58,7 +58,19 @@ let allmovies = [
 for(var i=0;i<allmovies.length;i++){ 
     var str = "",len = allmovies[i].description.length;
     for(var j=0;j<len/4;j++)str+=allmovies[i].description.charAt(j);
-
+    if(localStorage.getItem(i)!==null){
+        document.querySelector('#movies-list').innerHTML += 
+    `<li> <div class="card" id=${i} style="width: 18rem;">
+    <img src=${allmovies[i].imgpath} onclick="showdetails(${i})" class="card-img-top" alt="...">
+    <div class="card-body">
+    <h5 class="card-title">${allmovies[i].name}</h5>
+    <p class="card-text">${str}...</p>
+    <button class="btn btn-danger" onclick="removefav(${i})">Remove</button>
+    </div>
+    </div></li>
+    `;
+    }
+    else{
     document.querySelector('#movies-list').innerHTML += 
     `<li> <div class="card" id=${i} style="width: 18rem;">
     <img src=${allmovies[i].imgpath} onclick="showdetails(${i})" class="card-img-top" alt="...">
@@ -68,7 +80,7 @@ for(var i=0;i<allmovies.length;i++){
     <button class="btn btn-primary" onclick="move(${i})">Add to Favourites</button>
     </div>
     </div></li>
-    `;
+    `;}
 }
 
 function toggle2(){
