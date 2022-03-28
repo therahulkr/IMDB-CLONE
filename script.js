@@ -53,9 +53,19 @@ let allmovies = [
     
 ];
 
-// this function will display all the movies lies in allmovies array
-// on home page
-for(var i=0;i<allmovies.length;i++){ 
+
+
+function homepage()
+{       
+    document.querySelector('#movies-list').innerHTML = "";
+    document.querySelector('#movies').style.display = "block";
+    document.querySelector('#movies-list').style.display = "flex"; 
+    document.querySelector('#favourite-movie-list').style.display = "none"; 
+
+    document.querySelector('#searchresult').style.display = "none";
+    document.querySelector('#moviedetails').style.display = "none";
+
+    for(var i=0;i<allmovies.length;i++){ 
     var str = "",len = allmovies[i].description.length;
     for(var j=0;j<len/4;j++)str+=allmovies[i].description.charAt(j);
     if(localStorage.getItem(i)!==null){
@@ -65,7 +75,7 @@ for(var i=0;i<allmovies.length;i++){
     <div class="card-body">
     <h5 class="card-title">${allmovies[i].name}</h5>
     <p class="card-text">${str}...</p>
-    <button class="btn btn-danger" onclick="removefav(${i})">Remove</button>
+    <button class="btn btn-danger" onclick="remove(${i})">Remove</button>
     </div>
     </div></li>
     `;
@@ -81,35 +91,34 @@ for(var i=0;i<allmovies.length;i++){
     </div>
     </div></li>
     `;}
-}
-
-function toggle2(){
-    document.querySelector('#favourite-movie-list').style.display = "none";
-    document.querySelector('#movies').style.display = "block";
-    document.querySelector('#movies h2').innerHTML = "Movies Collection";
-    document.querySelector('#moviedetails').style.display = "none";
-    document.querySelector('#searchresult').style.display = "none";
-    document.querySelector('#movies-list').style.display = "flex";
-}
-
-function move(id){
+}}
+// localStorage.clear();
+function move(id,x){
     if(localStorage.getItem(id) === null){
            console.log(localStorage.getItem(id)+" "+id)
            localStorage.setItem(id,id);
     }
-
+    document.querySelector('#movies-list').innerHTML = "";
+    homepage();
 }
+
+function remove(id){
+    localStorage.removeItem(id);
+    document.querySelector('#movies-list').innerHTML = "";
+    homepage();
+}
+
 function removefav(id){
     localStorage.removeItem(id);
     document.querySelector('#favourite-movie-list').innerHTML = "";
     favfunction();
 }
+
 function favfunction(){
     document.querySelector('#movies').style.display = "none";
     document.querySelector('#favourite-movie-list').style.display = "flex";  
     
     document.querySelector('#favourite-movie-list').innerHTML = "";
-    document.querySelector('#favourite-movie-list').innerHTML = `<button style="width:10%;"class="btn btn-primary" onclick="toggle2()">Home Page</button><br>`;
 
     
     for(var i=0;i<allmovies.length;i++){ 
@@ -117,7 +126,7 @@ function favfunction(){
         
         document.querySelector('#favourite-movie-list').innerHTML += 
         `<li> <div class="search-box">
-                <div><img src=${allmovies[i].imgpath} onclick="showdetails(${i})" class="card-img-top" alt="..."></div>
+                <div><img src=${allmovies[i].imgpath}  class="card-img-top" alt="..."></div>
                 <div class="card-bodyy">
                 <h5 class="card-titlee">${allmovies[i].name}</h5>
                 <p>${allmovies[i].description}</p>
@@ -130,51 +139,69 @@ function favfunction(){
     }
 }
 
-// This function is used to toggle the display 
-// of movies collection with movie detail
-function toggle(){
-    document.querySelector('#movies h2').innerHTML = "Movies Collection";
-    document.querySelector('#moviedetails').style.display = "none";
-    document.querySelector('#searchresult').style.display = "none";
-    document.querySelector('#movies-list').style.display = "flex";
+function removefromdetails(id){
+    localStorage.removeItem(id);
+    document.querySelector('#moviedetails').innerHTML = "";
+    showdetails(id);
+}
+function movefromdetails(id){
+    localStorage.setItem(id,id);
+    document.querySelector('#moviedetails').innerHTML = "";
+    showdetails(id);
 }
 
-// By clicking on any movie this function will be call and
-//  will show details of that movie
 function showdetails(id){
-    document.querySelector('#movies-list').style.display = "none";
-    document.querySelector('#searchresult').style.display = "none";
-    document.querySelector('#moviedetails').style.display = "flex";
-
-    document.querySelector('#movies h2').innerHTML = "Detail";
-    document.querySelector('#moviedetails').innerHTML = 
-    `
-        <div id="image"><img src=${allmovies[id].imgpath}></div>
-        <div id="text">
-           
-           <h2>${allmovies[id].name}</h2>
-           <p>${allmovies[id].description}</p>
-    <button class="btn btn-primary" onclick="move(${id})">Add to Favourites</button>
-    <button class="btn btn-secondary" onclick="toggle()">Home page</button>
-        </div>
+        document.querySelector('#movies-list').style.display = "none";
+        document.querySelector('#searchresult').style.display = "none";
+        document.querySelector('#moviedetails').style.display = "flex";
+        document.querySelector('#favourite-movie-list').style.display = "none"; 
     
-    `;
+        document.querySelector('#movies h2').innerHTML = "Detail";
+        if(localStorage.getItem(id)!==null){
+            document.querySelector('#moviedetails').innerHTML = 
+        `
+            <div id="image"><img src=${allmovies[id].imgpath}></div>
+            <div id="text">
+               
+               <h2>${allmovies[id].name}</h2>
+               <p>${allmovies[id].description}</p>
+               <button class="btn btn-danger" onclick="removefromdetails(${id})">Remove</button>
+               <button class="btn btn-secondary" onclick="homepage()">Home page</button>
+            </div>
+        
+        `;
+        }
+        else{
+            document.querySelector('#moviedetails').innerHTML = 
+        `
+            <div id="image"><img src=${allmovies[id].imgpath}></div>
+            <div id="text">
+               
+               <h2>${allmovies[id].name}</h2>
+               <p>${allmovies[id].description}</p>
+        <button class="btn btn-primary" onclick="movefromdetails(${id})">Add to Favourites</button>
+        <button class="btn btn-secondary" onclick="homepage()">Home page</button>
+            </div>
+        
+        `;}
 }
-// localStorage.clear();
 
-// displaying the search result to the frontend
+
+
 function searchcontent(){
     if(document.querySelector('.d-flex input').value.length==0){
         alert("Please enter a valid movie name");
     }else{
         var searchinput = document.querySelector('.d-flex input').value.toLowerCase();
         let searcharr = [];
+        let indexarr = [];
         
         for(var i=0;i<allmovies.length;i++){
             var str = allmovies[i].name.toLowerCase();
             
             if(str.includes(searchinput)){
                 searcharr[searcharr.length] = allmovies[i];
+                indexarr[indexarr.length] = i;
             }
         }
 
@@ -192,21 +219,19 @@ function searchcontent(){
             document.querySelector('#movies h2').innerHTML = `Search Result(${searcharr.length})<br><button class="btn btn-primary" onclick="toggle()">Home page</button>`;
             document.querySelector('#searchresult').innerHTML = '';
             for(var i=0;i<searcharr.length;i++){ 
-                document.querySelector('#searchresult').innerHTML += 
-                `<li> <div class="search-box">
-                <div><img src=${searcharr[i].imgpath} onclick="showdetails(${i})" class="card-img-top" alt="..."></div>
-                <div class="card-bodyy">
-                <h5 class="card-titlee">${searcharr[i].name}</h5>
-                <p>${searcharr[i].description}</p>
-                <button class="btn btn-primary">Add to Favourites</button>
-                </div>
-                </div></li>
-                `;
+                    document.querySelector('#searchresult').innerHTML += 
+                    `<li> <div class="search-box">
+                    <div><img src=${searcharr[i].imgpath}  class="card-img-top" alt="..."></div>
+                    <div class="card-bodyy">
+                    <h5 class="card-titlee">${searcharr[i].name}</h5>
+                    <p>${searcharr[i].description}</p>
+                    <button class="btn btn-primary" onclick="showdetails(${indexarr[i]})">Show Details</button>
+                    </div>
+                    </div></li>
+                    `;
+            
             }
         }
         document.querySelector('.d-flex input').value = "";
     }
 }
-
-
-
