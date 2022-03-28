@@ -64,6 +64,7 @@ function homepage()
 
     document.querySelector('#searchresult').style.display = "none";
     document.querySelector('#moviedetails').style.display = "none";
+    document.querySelector('#movies h2').innerHTML = "Movies Collection";
 
     for(var i=0;i<allmovies.length;i++){ 
     var str = "",len = allmovies[i].description.length;
@@ -212,11 +213,11 @@ function searchcontent(){
             document.querySelector('#searchresult').innerHTML = 
             `
                 <div>No Result Found</div>
-                <button class="btn btn-primary" onclick="toggle()">Home page</button>
+                <button class="btn btn-primary" onclick="homepage()">Home page</button>
             `;
         }
         else{
-            document.querySelector('#movies h2').innerHTML = `Search Result(${searcharr.length})<br><button class="btn btn-primary" onclick="toggle()">Home page</button>`;
+            document.querySelector('#movies h2').innerHTML = `Search Result(${searcharr.length})`;
             document.querySelector('#searchresult').innerHTML = '';
             for(var i=0;i<searcharr.length;i++){ 
                     document.querySelector('#searchresult').innerHTML += 
